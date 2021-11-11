@@ -1,13 +1,35 @@
+import { useState } from 'react';
+
 export default function Home() {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  async function submitForm() {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    });
+  }
+
   return (
     <div>
       <h1>I am index page and not hello</h1>
-      <form method="POST" action="/api/login">
-        <input type="text" name="username" defaultValue="admin" />
+      <form>
+        <input
+          type="text"
+          name="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
         <br />
-        <input type="password" name="password" defaultValue="admin" />
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <br />
-        <input type="submit" value="Login" />
+        <input type="button" value="Login" onClick={submitForm} />
       </form>
     </div>
   );
